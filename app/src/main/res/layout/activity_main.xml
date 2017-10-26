@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Adblock for android updates your hosts file with a custom blacklist. Thanks to this, you will see no more ads in apps or in the browser. Select the hosts file you wish to use and press 'Update Hosts File'."
+            android:textAlignment="center"
+            android:textStyle="bold" />
+
+
+    <RadioButton
+        android:id="@+id/rbStevenBlack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.00"
+        android:checked="true"
+        android:onClick="clkRbStevenBlacks"
+        android:text="Steven Black's blacklist" />
+
+    <CheckBox
+        android:id="@+id/cbDefault"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="default" />
+
+    <CheckBox
+        android:id="@+id/cbGambling"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="gambling" />
+
+    <CheckBox
+        android:id="@+id/cbPorn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="porn" />
+
+    <CheckBox
+        android:id="@+id/cbFakeNews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fake news" />
+
+    <CheckBox
+        android:id="@+id/cbSocial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="social" />
+
+    <RadioButton
+        android:id="@+id/rbHostsFileNet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="clkRbHostsFileBlacks"
+        android:text="hosts-file.net blacklist" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.09"
+        app:srcCompat="@android:drawable/list_selector_background" />
+
+    <Button
+        android:id="@+id/bnResetHostsFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:onClick="clkReseteHostsFile"
+        android:text="Reset hosts file" />
+
+    <Button
+        android:id="@+id/bnEditHostsFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:text="Edit hosts file" />
+
+    <Button
+        android:id="@+id/bnUpdateHostsFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:text="Update hosts file"
+        android:onClick="clkUpdateHostsFile"
+        android:textStyle="bold" />
+    </LinearLayout>
+
