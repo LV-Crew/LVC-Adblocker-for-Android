@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.00"
-        android:checked="true"
+        android:checked="false"
         android:onClick="clkRbStevenBlacks"
         android:text="Steven Black's blacklist" />
 
@@ -65,8 +65,28 @@
         android:id="@+id/rbHostsFileNet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:checked="true"
         android:onClick="clkRbHostsFileBlacks"
         android:text="hosts-file.net blacklist" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="The hosts file update takes several minutes. Please be patient."
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status: idle"
+        android:textAlignment="center" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -88,7 +108,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom|center_horizontal"
-        android:text="Edit hosts file" />
+        android:text="Edit hosts file"
+        android:onClick="clkEditHostsFile"/>
 
     <Button
         android:id="@+id/bnUpdateHostsFile"
