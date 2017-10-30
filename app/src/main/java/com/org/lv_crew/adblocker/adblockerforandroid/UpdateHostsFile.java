@@ -43,46 +43,47 @@ public class UpdateHostsFile {
 
             resetPermissions();
         }catch(IOException e){
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
         }
     }
     private void setText(Context context) throws IOException {
         //FileOutputStream fs=new FileOutputStream(new File("/system/etc/hosts"));
         //OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("/system/etc/hosts", Context.MODE_APPEND));
+
+
         File outputDir = context.getCacheDir();
-        FileOutputStream fs=new FileOutputStream (new File( outputDir+"/hosts.tmp")); // true will be same as Context.MODE_APPEND
-        ;
+        Process p=Runtime.getRuntime().exec(new String[] { "su", "-c", "rm "+outputDir+"/hosts.tmp"});
+        try {
+            p.waitFor();
+        }catch (Exception ex){}
+        File fx=new File(outputDir+"/hosts.tmp");
+        fx.createNewFile();
+        FileOutputStream fs=new FileOutputStream (fx); // true will be same as Context.MODE_APPEND
+
         fs.write(_text.getBytes());
         fs.close();
         File f1=new File("/system/etc/hosts");
         File f=new File(outputDir+"/hosts.tmp");
         int count=0;
-        while(f.getTotalSpace()!=f1.getTotalSpace()&&count<20) {
+
+
+        while (f.getTotalSpace() != f1.getTotalSpace() && count < 20) {
             Process process = Runtime.getRuntime().exec(new String[]{"su", "-c", "cp " + outputDir + "/hosts.tmp /system/etc/hosts"});
-            /*
-            Reader r = new InputStreamReader(process.getInputStream());
-            BufferedReader in = new BufferedReader(r);
-            String line="";
-            String ges="";
-            while((line = in.readLine()) != null)
-                ges+=line;
-               // Toast.makeText(context,line,Toast.LENGTH_LONG).show();
-            in.close();
-        //Toast.makeText(context,ges,Toast.LENGTH_LONG).show();
-            Log.d("D",ges);*/
-            try{
-            process.waitFor();}catch(Exception e){}
+            try {
+                process.waitFor();
+            }catch(Exception ex){}
             count++;
         }
     }
 
 
     private void setPermissions() throws IOException {
-        Runtime.getRuntime().exec(new String[] { "su", "-c", "mount -o remount,rw /system"});
+        Runtime.getRuntime().exec(new String[] { "su", "-c", "mount -o rw,remount /system"});
 
     }
 
     private void resetPermissions() throws IOException {
-        Runtime.getRuntime().exec(new String[] { "su", "-c", "mount -o remount,ro /system"});
+        Runtime.getRuntime().exec(new String[] { "su", "-c", "mount -o ro,remount /system"});
     }
 
 }

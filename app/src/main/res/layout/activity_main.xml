@@ -21,12 +21,13 @@
             android:textStyle="bold" />
 
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/rbStevenBlack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.00"
         android:checked="false"
+        android:textStyle="bold"
         android:onClick="clkRbStevenBlacks"
         android:text="Steven Black's blacklist" />
 
@@ -61,20 +62,14 @@
         android:layout_height="wrap_content"
         android:text="social" />
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/rbHostsFileNet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="true"
+        android:textStyle="bold"
         android:onClick="clkRbHostsFileBlacks"
         android:text="hosts-file.net blacklist" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="The hosts file update takes several minutes. Please be patient."
-        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/textView4"
