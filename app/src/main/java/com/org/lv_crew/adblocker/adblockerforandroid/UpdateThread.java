@@ -111,45 +111,8 @@ public class UpdateThread extends Thread {
     Looper.prepare();
     act.setText();
     Runtime.getRuntime().exec(new String[] { "su", "-c", "mount -o ro,remount /system"});
-}catch(Exception e){}
-
-                }
-
-    private static String getURL(String surl,MainActivity act) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        System.setProperty("java.net.preferIPv4Addresses", "true");
-        System.setProperty("java.net.preferIPv6Addresses", "false");
-        System.setProperty("validated.ipv6", "false");
-        String fullString = "";
-        try {
-
-            URL url = new URL(surl);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            String line;
-            long count=0;
-            while ((line = reader.readLine()) != null) {
-                fullString += line+"\n";
-            }
-            reader.close();
-        } catch (Exception ex) {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(act);
-            builder1.setMessage("Error: "+ex.getMessage());
-            builder1.setCancelable(false);
-
-            builder1.setPositiveButton(
-                    "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
+}catch(Exception e){
         }
-
-        return fullString;
-    }
+}
 }
 

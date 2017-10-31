@@ -354,10 +354,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void clkUpdateHostsFile(View view) {
         writePrefs();
-        HostsFileDownloader dlr = new HostsFileDownloader();
-        ArrayList l = new ArrayList();
-        HostsFileDownloader.StevenBlackSublist sl[] = {};
 
+        ArrayList l = new ArrayList();
 
         ((Button)findViewById(R.id.bnEditHostsFile)).setEnabled(false);
         ((Button)findViewById(R.id.bnResetHostsFile)).setEnabled(false);
@@ -463,9 +461,9 @@ private void doUpdate()
 
     public void clkReseteHostsFile(View view) {
         try {
-            HostsFileDownloader dlr = new HostsFileDownloader();
+
             ArrayList l = new ArrayList();
-            HostsFileDownloader.StevenBlackSublist sl[] = {};
+
 
 
 
