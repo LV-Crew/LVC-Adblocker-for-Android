@@ -47,9 +47,6 @@ public class UpdateHostsFile {
         }
     }
     private void setText(Context context) throws IOException {
-        //FileOutputStream fs=new FileOutputStream(new File("/system/etc/hosts"));
-        //OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("/system/etc/hosts", Context.MODE_APPEND));
-
 
         File outputDir = context.getCacheDir();
         Process p=Runtime.getRuntime().exec(new String[] { "su", "-c", "rm "+outputDir+"/hosts.tmp"});

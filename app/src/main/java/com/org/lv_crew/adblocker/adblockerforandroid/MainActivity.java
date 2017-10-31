@@ -10,12 +10,18 @@ import android.support.constraint.solver.ArrayLinkedVariables;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,7 +36,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private InterstitialAd mInterstitialAd;
+    private MainActivity self;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +88,53 @@ public class MainActivity extends AppCompatActivity {
 
         readPrefs();
 
+        self=this;
+
+        MobileAds.initialize(this,"ca-app-pub-8348435662770618~7548201316");
+        AdRequest.Builder adBuilder = new AdRequest.Builder();
+        adBuilder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                mInterstitialAd.show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                Context ctx=getApplicationContext();
+                Toast toast;
+                if(errorCode==AdRequest.ERROR_CODE_NETWORK_ERROR)
+                    Toast.makeText(ctx, "can't load ad- network error", Toast.LENGTH_SHORT).show();
+                else if(errorCode==AdRequest.ERROR_CODE_INVALID_REQUEST)
+                    Toast.makeText(ctx, "can't load ad - invalid requiest", Toast.LENGTH_SHORT).show();
+                else if(errorCode==AdRequest.ERROR_CODE_INTERNAL_ERROR)
+                    Toast.makeText(ctx, "can't load ad - internal error", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+                Log.i("Ads", "onAdOpened");
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+                Log.i("Ads", "onAdLeftApplication");
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when when the interstitial ad is closed.
+                Log.i("Ads", "onAdClosed");
+            }
+        });
+        mInterstitialAd.setAdUnitId("ca-app-pub-8348435662770618/2842669540");
+        mInterstitialAd.loadAd( adBuilder.build());
+        setHostsFileStatus();
     }
 
     public static final String PREFS_NAME = "MyPrefsFile";
@@ -170,25 +224,43 @@ public class MainActivity extends AppCompatActivity {
     public void clkEditHostsFile(View view)
     {
         File f=new File("/system/etc/hosts");
-        //Read text from file
-        StringBuilder text = new StringBuilder();
+        if((f.length()/1024)<2000) {
+            //Read text from file
+            StringBuilder text = new StringBuilder();
 
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(f));
-            String line;
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(f));
+                String line;
 
-            while ((line = br.readLine()) != null) {
-                text.append(line);
-                text.append('\n');
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+                br.close();
+            } catch (IOException e) {
+                //You'll need to add proper error handling here
             }
-            br.close();
+            setContentView(R.layout.activity_editor);
+            ((TextView) findViewById(R.id.txtEditor)).setText(text);
         }
-        catch (IOException e) {
-            //You'll need to add proper error handling here
+        else
+        {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("Hosts file too large for editor. Can only edit hosts files < 2MB.");
+            builder1.setCancelable(false);
+
+            builder1.setPositiveButton(
+                    "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
         }
-        setContentView(R.layout.activity_editor);
-        ((TextView)findViewById(R.id.txtEditor)).setText(text);
     }
+
 
     public void clkEditorSpeichern(View view)
     {
@@ -412,6 +484,7 @@ private void doUpdate()
                             uhf.startUpdate(getApplicationContext());
                             uhf.startUpdate(getApplicationContext());
                             uhf.startUpdate(getApplicationContext());
+                            setHostsFileStatus();
                         } catch(
                         IOException e)
 
@@ -422,6 +495,11 @@ private void doUpdate()
             AlertDialog alert11 = builder1.create();
             alert11.show();
         }catch (Exception ex){}
+    }
+    private void setHostsFileStatus()
+    {
+        File f=new File("/etc/hosts");
+        ((TextView)findViewById(R.id.txtStatus)).setText("Status: idle\nhosts file size: "+Long.toString(((f.length()/1024)<1&&(f.length()>1))?1:f.length()/1024)+" KByte");
     }
 }
 
